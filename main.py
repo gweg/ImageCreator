@@ -9,26 +9,27 @@ import sys
 
 class ImageCreator:
     def __init__(self):
-        self.matrix=[]
-    def set_matrix(self,matrix_x_size,matrix_y_size):
+        self.binary_matrix=[]
+    def set_binary_matrix(self,matrix_x_size,matrix_y_size):
         '''
         square size
         :param matix_size:
         :return:
         '''
-        self.matrix_x_size = matrix_x_size
-        self.matrix_y_size = matrix_y_size
-        self.matrix_size=list(range(0,self.matrix_x_size*self.matrix_y_size))
+        self.binary_matrix_x_size = matrix_x_size
+        self.binary_matrix_y_size = matrix_y_size
+        self.binary_matrix=list(range(0,self.binary_matrix_x_size*self.binary_matrix_y_size))
+        #self.binary_number=
 
 
-    def paint_matrix(self,painter,x,y,width,height):
+    def paint_binary_matrix(self,painter,x,y,width,height):
 
-        for ry in range(y,y+height,int(height/self.matrix_y_size)+1):
-            for rx in range(x,x+width,int(width/self.matrix_x_size)+1):
+        for ry in range(y,y+height,int(height/self.binary_matrix_y_size)+1):
+            for rx in range(x,x+width,int(width/self.binary_matrix_x_size)+1):
                 #painter.setPen(QPen(Qt.green, 1, Qt.SolidLine))
                 painter.setBrush(QBrush(Qt.black, Qt.SolidPattern))
-                painter.drawRect(rx, ry, int(width/self.matrix_x_size), int(height/self.matrix_y_size))
-                print(rx,ry, int(width/self.matrix_x_size), int(height/self.matrix_y_size))
+                painter.drawRect(rx, ry, int(width/self.binary_matrix_x_size), int(height/self.binary_matrix_y_size))
+                #print(rx,ry, int(width/self.binary_matrix_x_size), int(height/self.binary_matrix_y_size))
 
 
 
@@ -39,7 +40,7 @@ class Window(QMainWindow):
         super().__init__()
 
         self.imagecreator=ImageCreator()
-        self.imagecreator.set_matrix(64,64)
+        self.imagecreator.set_binary_matrix(64,64)
 
         self.title = "PyQt5 Drawing Rectangle"
         self.top = 100
@@ -60,7 +61,7 @@ class Window(QMainWindow):
         #painter.setPen(QPen(Qt.black, 5, Qt.SolidLine))
         # painter.setBrush(QBrush(Qt.red, Qt.SolidPattern))
         #painter.setBrush(QBrush(Qt.green, Qt.DiagCrossPattern))
-        self.imagecreator.paint_matrix(painter,100,15,800,600)
+        self.imagecreator.paint_binary_matrix(painter,100,15,800,600)
         #painter.drawRect(100, 15, 400, 200)
 
 
