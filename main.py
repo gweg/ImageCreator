@@ -44,7 +44,7 @@ class ImageCreator:
 
     @property
     def bin_value(self):
-        return self._bin_value
+        return self._dec_value
     @bin_value.setter
     def bin_value(self,value):
         '''
@@ -81,8 +81,8 @@ class ImageCreator:
         self.binary_matrix_x_size = matrix_x_size
         self.binary_matrix_y_size = matrix_y_size
         self.binary_matrix=list(range(0,self.binary_matrix_x_size*self.binary_matrix_y_size))
-        self.bin_value = "".join(['0'*((self.binary_matrix_x_size)*(self.binary_matrix_y_size))])
-        self.dec_value = int(self.bin_value,2)
+        self._bin_value = "".join(['0'*((self.binary_matrix_x_size)*(self.binary_matrix_y_size))])
+        self._dec_value = int(self._bin_value,2)
 
 
 
@@ -137,7 +137,7 @@ class Window(QMainWindow):
         #painter.setPen(QPen(Qt.black, 5, Qt.SolidLine))
         # painter.setBrush(QBrush(Qt.red, Qt.SolidPattern))
         #painter.setBrush(QBrush(Qt.green, Qt.DiagCrossPattern))
-        self.imagecreator.bin_value = 255
+        self.imagecreator.bin_value = self.imagecreator.bin_value+ 1
         self.imagecreator.paint_binary_matrix(painter,100,15,800,600)
 
         #painter.drawRect(100, 15, 400, 200)
