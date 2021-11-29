@@ -23,8 +23,8 @@ class ImageCreator:
                 pass
             for x in value:
                 if int(x) > 1 or int(x) < 0:
-                    raise ValueError("value must be composed of 0 or 1")
                     value = ""
+                    raise ValueError("value must be composed of 0 or 1")
             return value
         else:
             raise ValueError("input value must be decimal")
@@ -92,10 +92,10 @@ class ImageCreator:
     def paint_binary_matrix(self,painter,x,y,width,height):
         # get the bin_value
 
-        i = len(self.bin_value)-1
+        i = len(self._bin_value)-1
         for ry in range(y,y+height,int(height/self.binary_matrix_y_size)+1):
             for rx in range(x,x+width,int(width/self.binary_matrix_x_size)+1):
-                bit=self.bin_value[i]
+                bit=self._bin_value[i]
                 #print (bit)
                 if i<0 : break # if bin value is lesser than bin matrix size
                 #painter.setPen(QPen(Qt.green, 1, Qt.SolidLine))
@@ -137,7 +137,7 @@ class Window(QMainWindow):
         #painter.setPen(QPen(Qt.black, 5, Qt.SolidLine))
         # painter.setBrush(QBrush(Qt.red, Qt.SolidPattern))
         #painter.setBrush(QBrush(Qt.green, Qt.DiagCrossPattern))
-        self.imagecreator.bin_value = self.imagecreator.bin_value+ 1
+        # self.imagecreator.bin_value = self.imagecreator.bin_value+ 1
         self.imagecreator.paint_binary_matrix(painter,100,15,800,600)
 
         #painter.drawRect(100, 15, 400, 200)
