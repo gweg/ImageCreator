@@ -62,10 +62,12 @@ class ImageCreator:
         # string input type
         elif type(value) == str:
             try:
-                if value.index('0b'):
-                    value = value[2:]
+                value.index('0b')
+
             except:
                 pass
+            else:
+                value = value[2:]
             self._bin_value = value
             self._dec_value = self.string_bin_to_int(value)
         else:
@@ -114,7 +116,7 @@ class ImageCreator:
 class Window(QMainWindow):
     def __init__(self):
         super().__init__()
-
+        self.counter=0
         self.imagecreator=ImageCreator()
         self.imagecreator.set_binary_matrix(8,8)
         self.imagecreator.bin_value = "1111111110000001100000011000000110000001100000011000000111111111"
@@ -131,15 +133,18 @@ class Window(QMainWindow):
         self.setWindowTitle(self.title)
         self.setGeometry(self.top, self.left, self.width, self.height)
         self.show()
+        for i in range(1,10000):
+            self.paintEvent(self)
 
     def paintEvent(self, e):
         painter = QPainter(self)
         #painter.setPen(QPen(Qt.black, 5, Qt.SolidLine))
         # painter.setBrush(QBrush(Qt.red, Qt.SolidPattern))
         #painter.setBrush(QBrush(Qt.green, Qt.DiagCrossPattern))
-        # self.imagecreator.bin_value = self.imagecreator.bin_value+ 1
+        self.imagecreator.bin_value = bin(self.counter)
+        self.counter+=1
         self.imagecreator.paint_binary_matrix(painter,100,15,800,600)
-
+        print(self.counter)
         #painter.drawRect(100, 15, 400, 200)
 
 
