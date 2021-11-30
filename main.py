@@ -105,6 +105,8 @@ class ImageCreator:
     def load_dec_value(self,dec_value):
         pass
 
+
+
     def paint_binary_matrix(self,painter,x,y,width,height):
         # get the bin_value
 
@@ -124,7 +126,6 @@ class ImageCreator:
                     painter.drawRect(rx, ry, int(width / self.binary_matrix_x_size),int(height / self.binary_matrix_y_size))
                 #print(rx,ry, int(width/self.binary_matrix_x_size), int(height/self.binary_matrix_y_size))
                 i+=1
-
 
 
 
@@ -171,6 +172,12 @@ class Window(QMainWindow):
         self.setGeometry(self.top, self.left, self.width, self.height)
         self.show()
 
+    def get_screen(self):
+        #screen = QtWidgets.QApplication.primaryScreen()
+        screen = QtWidgets.QApplication.primaryScreen()
+        screenshot = screen.grabWindow(self.winId())
+        screenshot.save('appshot'+str(self.counter).rjust(4,'0')+".png", 'png')
+        #w.close()
 
     def paintEvent(self, e):
         painter = QPainter(self)
@@ -180,11 +187,8 @@ class Window(QMainWindow):
         #painter.setBrush(QBrush(Qt.green, Qt.DiagCrossPattern))
         self.imagecreator.bin_value = bin(self.counter)
 
-        screen = QtWidgets.QApplication.primaryScreen()
+        self.get_screen()
 
-        screenshot = screen.grabWindow(w.winId())
-        screenshot.save('appshot'+str(self.counter).rjust(4,'0')+".png", 'png')
-        w.close()
 
         self.textbox_bin_value.setText(str(bin(self.counter))[2:].rjust(self.imagecreator.matrix_size,"0").replace('1','█').replace('0',' '))
         self.textbox_dec_value.setText(str(self.counter))
@@ -196,8 +200,10 @@ class Window(QMainWindow):
 
 
 
+
 App = QApplication(sys.argv)
-w = QtWidgets.QWidget()
+
+
 window = Window()
 sys.exit(App.exec())
 

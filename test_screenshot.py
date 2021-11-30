@@ -5,7 +5,6 @@ app = QtWidgets.QApplication(sys.argv)
 w = QtWidgets.QWidget()
 
 grab_btn=QtWidgets.QPushButton('Grab Screen')
-
 def click_handler():
     screen = QtWidgets.QApplication.primaryScreen()
     screenshot = screen.grabWindow( w.winId() )
