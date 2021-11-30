@@ -1,7 +1,7 @@
 # créer un avi depuis png https://stackoverflow.com/questions/64535911/python-convert-png-images-in-a-folder-into-a-video
 
 
-
+# TODO: make a white background
 
 
 from PyQt5 import QtGui
