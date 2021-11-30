@@ -1,5 +1,5 @@
 from PyQt5 import QtGui
-from PyQt5.QtWidgets import QApplication, QMainWindow
+from PyQt5.QtWidgets import QApplication, QMainWindow,QLabel,QLineEdit
 from PyQt5.QtGui import QPainter, QBrush, QPen
 from PyQt5.QtCore import Qt,QTimer
 import numpy as np
@@ -71,6 +71,7 @@ class ImageCreator:
                 pass
             else:
                 value = value[2:]
+            value=value.rjust(self.matrix_size,"0")
             self._bin_value = value
             self._dec_value = self.string_bin_to_int(value)
         else:
@@ -85,8 +86,9 @@ class ImageCreator:
         '''
         self.binary_matrix_x_size = matrix_x_size
         self.binary_matrix_y_size = matrix_y_size
-        self.binary_matrix=list(range(0,self.binary_matrix_x_size*self.binary_matrix_y_size))
-        self._bin_value = "".join(['0'*((self.binary_matrix_x_size)*(self.binary_matrix_y_size))])
+        self.matrix_size = (self.binary_matrix_x_size) * (self.binary_matrix_y_size)
+        self.binary_matrix=list(range(0,self.matrix_size))
+        self._bin_value = "".join(['0'*self.matrix_size])
         self._dec_value = int(self._bin_value,2)
 
 
@@ -97,7 +99,8 @@ class ImageCreator:
     def paint_binary_matrix(self,painter,x,y,width,height):
         # get the bin_value
 
-        i = len(self._bin_value)-1
+        # i = len(self._bin_value)-1
+        i=0
         for ry in range(y,y+height,int(height/self.binary_matrix_y_size)+1):
             for rx in range(x,x+width,int(width/self.binary_matrix_x_size)+1):
                 bit=self._bin_value[i]
@@ -111,7 +114,7 @@ class ImageCreator:
                     painter.setBrush(QBrush(Qt.white, Qt.SolidPattern))
                     painter.drawRect(rx, ry, int(width / self.binary_matrix_x_size),int(height / self.binary_matrix_y_size))
                 #print(rx,ry, int(width/self.binary_matrix_x_size), int(height/self.binary_matrix_y_size))
-                i-=1
+                i+=1
 
 
 
@@ -129,6 +132,8 @@ class Window(QMainWindow):
         self.width = 1280
         self.height = 768
         self.resize(1024,768)
+        self.textbox =QLineEdit("0")
+        self.textbox.move(self.width-400,100)
         self.InitWindow()
 
         self.timer = QTimer()
@@ -146,10 +151,13 @@ class Window(QMainWindow):
 
     def paintEvent(self, e):
         painter = QPainter(self)
+
         #painter.setPen(QPen(Qt.black, 5, Qt.SolidLine))
         # painter.setBrush(QBrush(Qt.red, Qt.SolidPattern))
         #painter.setBrush(QBrush(Qt.green, Qt.DiagCrossPattern))
         self.imagecreator.bin_value = bin(self.counter)
+        self.textbox.setText("mon texte")
+        #self.label.textbox(str(bin(self.counter)).rjust(self.imagecreator.matrix_size,"0"))
         self.counter+=1
         self.imagecreator.paint_binary_matrix(painter,100,15,800,600)
         #print(self.counter)
