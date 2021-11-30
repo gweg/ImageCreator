@@ -5,6 +5,9 @@ from PyQt5.QtCore import Qt,QTimer
 import numpy as np
 
 # https://www.programiz.com/python-programming/methods/built-in/property
+
+# screensot
+# https://stackoverflow.com/questions/51361674/is-there-a-way-to-take-screenshot-of-a-window-in-pyqt5-or-qt5
 import sys
 
 class ImageCreator:
