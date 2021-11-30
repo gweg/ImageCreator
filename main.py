@@ -1,3 +1,9 @@
+# créer un avi depuis png https://stackoverflow.com/questions/64535911/python-convert-png-images-in-a-folder-into-a-video
+
+
+
+
+
 from PyQt5 import QtGui
 from PyQt5.QtWidgets import QApplication, QMainWindow,QLabel,QLineEdit
 from PyQt5.QtGui import QPainter, QBrush, QPen
@@ -175,9 +181,9 @@ class Window(QMainWindow):
         self.imagecreator.bin_value = bin(self.counter)
 
         screen = QtWidgets.QApplication.primaryScreen()
-        w = QtWidgets.QWidget()
+
         screenshot = screen.grabWindow(w.winId())
-        screenshot.save('appshot'+str(self.counter).rjust(4,'0')+".jpg", 'jpg')
+        screenshot.save('appshot'+str(self.counter).rjust(4,'0')+".png", 'png')
         w.close()
 
         self.textbox_bin_value.setText(str(bin(self.counter))[2:].rjust(self.imagecreator.matrix_size,"0").replace('1','█').replace('0',' '))
@@ -191,6 +197,8 @@ class Window(QMainWindow):
 
 
 App = QApplication(sys.argv)
-
+w = QtWidgets.QWidget()
 window = Window()
 sys.exit(App.exec())
+
+
