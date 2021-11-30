@@ -2,6 +2,7 @@ from PyQt5 import QtGui
 from PyQt5.QtWidgets import QApplication, QMainWindow,QLabel,QLineEdit
 from PyQt5.QtGui import QPainter, QBrush, QPen
 from PyQt5.QtCore import Qt,QTimer
+from PyQt5 import QtWidgets
 import numpy as np
 
 # https://www.programiz.com/python-programming/methods/built-in/property
@@ -172,6 +173,12 @@ class Window(QMainWindow):
         # painter.setBrush(QBrush(Qt.red, Qt.SolidPattern))
         #painter.setBrush(QBrush(Qt.green, Qt.DiagCrossPattern))
         self.imagecreator.bin_value = bin(self.counter)
+
+        screen = QtWidgets.QApplication.primaryScreen()
+        w = QtWidgets.QWidget()
+        screenshot = screen.grabWindow(w.winId())
+        screenshot.save('appshot'+str(self.counter).rjust(4,'0')+".jpg", 'jpg')
+        w.close()
 
         self.textbox_bin_value.setText(str(bin(self.counter))[2:].rjust(self.imagecreator.matrix_size,"0").replace('1','█').replace('0',' '))
         self.textbox_dec_value.setText(str(self.counter))
