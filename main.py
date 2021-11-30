@@ -1,7 +1,7 @@
 from PyQt5 import QtGui
 from PyQt5.QtWidgets import QApplication, QMainWindow
 from PyQt5.QtGui import QPainter, QBrush, QPen
-from PyQt5.QtCore import Qt
+from PyQt5.QtCore import Qt,QTimer
 import numpy as np
 
 # https://www.programiz.com/python-programming/methods/built-in/property
@@ -128,13 +128,18 @@ class Window(QMainWindow):
         self.resize(1024,768)
         self.InitWindow()
 
+        self.timer = QTimer()
+        self.timer.timeout.connect(self.update)
+        self.timer.start(0)
+    def update(self):
+        self.repaint()
+
     def InitWindow(self):
         self.setWindowIcon(QtGui.QIcon("icon.png"))
         self.setWindowTitle(self.title)
         self.setGeometry(self.top, self.left, self.width, self.height)
         self.show()
-        for i in range(1,10000):
-            self.paintEvent(self)
+
 
     def paintEvent(self, e):
         painter = QPainter(self)
@@ -144,7 +149,7 @@ class Window(QMainWindow):
         self.imagecreator.bin_value = bin(self.counter)
         self.counter+=1
         self.imagecreator.paint_binary_matrix(painter,100,15,800,600)
-        print(self.counter)
+        #print(self.counter)
         #painter.drawRect(100, 15, 400, 200)
 
 
