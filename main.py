@@ -62,6 +62,7 @@ class ImageCreator:
                 self._dec_value = value
             except:
                 raise ValueError("invalid int value")
+            self._dec_value = value
         # string input type
         elif type(value) == str:
             try:
@@ -74,6 +75,7 @@ class ImageCreator:
             value=value.rjust(self.matrix_size,"0")
             self._bin_value = value
             self._dec_value = self.string_bin_to_int(value)
+            pass
         else:
             raise ValueError("invalid value")
 
@@ -126,14 +128,28 @@ class Window(QMainWindow):
         self.imagecreator=ImageCreator()
         self.imagecreator.set_binary_matrix(8,8)
         self.imagecreator.bin_value = "1111111110000001100000011000000110000001100000011000000111111111"
+
         self.title = "PyQt5 Drawing Rectangle"
         self.top = 100
         self.left = 100
         self.width = 1280
         self.height = 768
         self.resize(1024,768)
-        self.textbox =QLineEdit("0")
-        self.textbox.move(self.width-400,100)
+        self.textbox_bin_value =QLineEdit(self)
+        self.textbox_bin_value.setText(str(self.imagecreator.bin_value))
+        self.textbox_bin_value.move(64,self.height-100)
+        self.textbox_bin_value.setFixedWidth(1000)
+        self.textbox_bin_value.setStyleSheet("font-size: 20pt")
+
+        self.textbox_dec_value = QLineEdit(self)
+        self.textbox_dec_value.setText(str(self.imagecreator._dec_value))
+        self.textbox_dec_value.move(64, self.height - 50)
+        self.textbox_dec_value.setFixedWidth(1000)
+        font = QtGui.QFont("Courier New", 15)
+        self.textbox_dec_value.setFont(font)
+        self.textbox_bin_value.setFont(font)
+        #self.textbox_dec_value.setStyleSheet("font-name: corrier-new;font-size: 20pt")
+
         self.InitWindow()
 
         self.timer = QTimer()
@@ -156,7 +172,9 @@ class Window(QMainWindow):
         # painter.setBrush(QBrush(Qt.red, Qt.SolidPattern))
         #painter.setBrush(QBrush(Qt.green, Qt.DiagCrossPattern))
         self.imagecreator.bin_value = bin(self.counter)
-        self.textbox.setText("mon texte")
+
+        self.textbox_bin_value.setText(str(bin(self.counter))[2:].rjust(self.imagecreator.matrix_size,"0").replace('1','█').replace('0',' '))
+        self.textbox_dec_value.setText(str(self.counter))
         #self.label.textbox(str(bin(self.counter)).rjust(self.imagecreator.matrix_size,"0"))
         self.counter+=1
         self.imagecreator.paint_binary_matrix(painter,100,15,800,600)
