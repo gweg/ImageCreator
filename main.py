@@ -193,8 +193,9 @@ class Window(QMainWindow):
         self.textbox_bin_value.setText(str(bin(self.counter))[2:].rjust(self.imagecreator.matrix_size,"0").replace('1','█').replace('0',' '))
         self.textbox_dec_value.setText(str(self.counter))
         #self.label.textbox(str(bin(self.counter)).rjust(self.imagecreator.matrix_size,"0"))
-        self.counter+=1
+
         self.imagecreator.paint_binary_matrix(painter,100,15,800,600)
+        self.counter += 1
         #print(self.counter)
         #painter.drawRect(100, 15, 400, 200)
 

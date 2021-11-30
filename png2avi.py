@@ -3,7 +3,7 @@ import numpy as np
 import glob
 
 img_array = []
-for filename in glob.glob('C:/Users/catineau/PycharmProjects/ImageCreator/*.png'):  # (The only change I have made is here to the filepath.)
+for filename in glob.glob('C:/Users/greg/PycharmProjects/ImageCreator1/*.png'):  # (The only change I have made is here to the filepath.)
     img = cv2.imread(filename)
     height, width, layers = img.shape
     size = (width, height)
