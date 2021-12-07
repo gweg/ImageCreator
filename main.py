@@ -138,7 +138,7 @@ class Window(QMainWindow):
         self.imagecreator.set_binary_matrix(8,8)
         self.imagecreator.bin_value = "1111111110000001100000011000000110000001100000011000000111111111"
 
-        self.title = "Image creator"
+        self.title = "Image creator with 64 bits counter"
         self.top = 100
         self.left = 100
         self.width = 1280
