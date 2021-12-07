@@ -133,38 +133,78 @@ class Window(QMainWindow):
     def __init__(self):
         super().__init__()
         self.counter=0
+
         self.imagecreator=ImageCreator()
         self.imagecreator.set_binary_matrix(8,8)
         self.imagecreator.bin_value = "1111111110000001100000011000000110000001100000011000000111111111"
 
-        self.title = "PyQt5 Drawing Rectangle"
+        self.title = "Image creator"
         self.top = 100
         self.left = 100
         self.width = 1280
         self.height = 768
         self.resize(1024,768)
+        self.bindisplaymode=0
+        self.pause=False
+
+        self.figure_joconde=0b000111100011111101000011010000010110110101001001110000111101101111100111
+
         self.textbox_bin_value =QLineEdit(self)
         self.textbox_bin_value.setText(str(self.imagecreator.bin_value))
         self.textbox_bin_value.move(64,self.height-100)
-        self.textbox_bin_value.setFixedWidth(1000)
-        self.textbox_bin_value.setStyleSheet("font-size: 20pt")
+        self.textbox_bin_value.setFixedWidth(1048)
+        self.textbox_bin_value.setStyleSheet("font-size: 19.5pt")
 
         self.textbox_dec_value = QLineEdit(self)
         self.textbox_dec_value.setText(str(self.imagecreator._dec_value))
         self.textbox_dec_value.move(64, self.height - 50)
-        self.textbox_dec_value.setFixedWidth(1000)
+        self.textbox_dec_value.setFixedWidth(1048)
         font = QtGui.QFont("Courier New", 15)
         self.textbox_dec_value.setFont(font)
         self.textbox_bin_value.setFont(font)
         #self.textbox_dec_value.setStyleSheet("font-name: corrier-new;font-size: 20pt")
+        # init binary displaying mode button
+        self.b1 = QtWidgets.QPushButton(self)
+        self.b1.setText("bit mode")
+        self.b1.clicked.connect(self.clicked)
+        self.b1.move(1024,0)
+        # init pause button
+        self.b2 = QtWidgets.QPushButton(self)
+        self.b2.setText("pause")
+        self.b2.clicked.connect(self.pause_button_clicked)
+        self.b2.move(1024,32)
+        # figures button
+        self.b3 = QtWidgets.QPushButton(self)
+        self.b3.setText("figures")
+        self.b3.clicked.connect(self.figure_button_clicked)
+        self.b3.move(1024, 64)
+
 
         self.InitWindow()
-
+        ''' timer initialisation '''
         self.timer = QTimer()
         self.timer.timeout.connect(self.update)
         self.timer.start(0)
-    def update(self):
-        self.repaint()
+    def clicked(self):
+        """
+        change de displaying mode of bin value :  numeric (binary) or black and white block
+        :return:
+        """
+        if self.bindisplaymode==0:
+            self.bindisplaymode=1
+        else:
+            self.bindisplaymode = 0
+    def pause_button_clicked(self):
+        if self.pause:
+            self.pause=False
+        else:
+            self.pause=True
+    def figure_button_clicked(self):
+        self.pause = True
+        self.counter = self.figure_joconde
+
+
+
 
     def InitWindow(self):
         self.setWindowIcon(QtGui.QIcon("icon.png"))
@@ -175,11 +215,14 @@ class Window(QMainWindow):
     def get_screen(self):
         #screen = QtWidgets.QApplication.primaryScreen()
         screen = QtWidgets.QApplication.primaryScreen()
+
+
         screenshot = screen.grabWindow(self.winId())
-        screenshot.save('appshot'+str(self.counter).rjust(4,'0')+".png", 'png')
+        #screenshot.save('appshot'+str(self.counter).rjust(4,'0')+".png", 'png')
         #w.close()
 
     def paintEvent(self, e):
+
         painter = QPainter(self)
 
         #painter.setPen(QPen(Qt.black, 5, Qt.SolidLine))
@@ -189,13 +232,17 @@ class Window(QMainWindow):
 
         self.get_screen()
 
-
-        self.textbox_bin_value.setText(str(bin(self.counter))[2:].rjust(self.imagecreator.matrix_size,"0").replace('1','█').replace('0',' '))
+        if self.bindisplaymode==0:
+            self.textbox_bin_value.setText(str(bin(self.counter))[2:].rjust(self.imagecreator.matrix_size,"0"))
+        else:
+            self.textbox_bin_value.setText(str(bin(self.counter))[2:].rjust(self.imagecreator.matrix_size, "0").replace('1', '█').replace('0',' '))
         self.textbox_dec_value.setText(str(self.counter))
         #self.label.textbox(str(bin(self.counter)).rjust(self.imagecreator.matrix_size,"0"))
 
-        self.imagecreator.paint_binary_matrix(painter,100,15,800,600)
-        self.counter += 1
+        self.imagecreator.paint_binary_matrix(painter,100,15,600,600)
+        if self.pause:
+            return
+        self.counter += 12345678901234567
         #print(self.counter)
         #painter.drawRect(100, 15, 400, 200)
 
